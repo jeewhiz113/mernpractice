@@ -29,7 +29,7 @@ app.use('/api/items', items);  //anything going through to /api/items will use t
 
 if (process.env.NODE_ENV === 'production'){
   //Set a static folder
-  app.use(express.static('client.build'));
+  app.use(express.static('client/build'));
   //Anything else, we serve the index.html file.
   app.get('*', (req, res)=>{
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
