@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');  //allows us to get the request as an object in for example a post request.
-const path = requre('path')
+const path = require('path')
 const items = require('./routes/api/items');
 const app = express();
 
