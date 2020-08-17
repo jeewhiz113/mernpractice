@@ -11,7 +11,7 @@ import {
   Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { addItem } from '../actions/itemActions'
+import { addItem } from '../actions/itemActions';
 
 class ItemModal extends Component {
   state = {
@@ -42,7 +42,7 @@ class ItemModal extends Component {
     console.log(this.props);  //We see that when we log this here, with the mapDispatchToProps passed in to the connect function, the addItem function is now mapped to the props of this component.
     return(
       <div>
-        <Button color='dark' style={{marginBottom:'2rem'}} onClick = {this.toggle}>Add Item</Button>
+        {this.props.isAuthenticated ? <Button color='dark' style={{marginBottom:'2rem'}} onClick = {this.toggle}>Add Item</Button> : <h4 className='mb-3 ml-4'>Please log in to manage items</h4>}
         <Modal isOpen = {this.state.modal} toggle = {this.toggle}>
           <ModalHeader toggle = {this.toggle}>Add To Shopping List</ModalHeader>
             <ModalBody>
@@ -61,9 +61,10 @@ class ItemModal extends Component {
   }
 }
 const mapStateToProps = (state) =>({
-  items: state.items
+  items: state.item.items,
+  isAuthenticated: state.auth.isAuthenticated
 }) 
-
+//Then we need to think about how to lift these up with combineReducer
 const mapDispatchToProps = (dispatch) =>{
   return {  
     addItem: (item) =>{

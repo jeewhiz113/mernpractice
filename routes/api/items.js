@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth')
 
 //bring in item model
 
@@ -16,11 +17,10 @@ router.get('/', (req, res)=>{
     .then(items=>res.json(items));
 })  //Note the end point is api/item here because of how we defined it.
 
-//@route POST api/item: 
+//@route POST api/items: 
 //@desc Create an item
 //@access Public 
-router.post('/', (req, res)=>{
-  console.log(req.body.name)
+router.post('/', auth, (req, res)=>{
   const newItem = new Item({
     name:req.body.name,  //body parser allows us to do this.
   });
@@ -30,7 +30,7 @@ router.post('/', (req, res)=>{
 //@route DELETE api/item/:id: 
 //@desc Delete an item
 //@access Public 
-router.delete('/:id', (req, res)=>{
+router.delete('/:id', auth, (req, res)=>{
   Item.findById(req.params.id)
     .then(item => item.remove().
     then(()=>{

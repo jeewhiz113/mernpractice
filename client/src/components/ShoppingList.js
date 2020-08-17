@@ -20,7 +20,7 @@ class ShoppingList extends Component {
             {items.map(({_id, name})=>(    
               <CSSTransition key = {_id} timeout={500} classNames="fade">
                 <ListGroupItem>
-                  <Button className='remove-btn' color="danger" size="sm" key = {_id} onClick={this.handleClick.bind(this, _id)}>&times;</Button>
+                  {this.props.isAuthenticated ? <Button className='remove-btn' color="danger" size="sm" key = {_id} onClick={this.handleClick.bind(this, _id)}>&times;</Button> : null}
                   {name}
                 </ListGroupItem>
               </CSSTransition>
@@ -34,9 +34,11 @@ class ShoppingList extends Component {
 }
 const mapStateToProps = (state) =>{ 
   return{ 
-    items: state.items   
+    items: state.item.items,
+    isAuthenticated: state.auth.isAuthenticated 
   }
 }
+//Then we need to think about how to lift these up with combineReducer
 
 const mapDispatchToProps = (dispatch) =>{
   return {

@@ -1,22 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');  //allows us to get the request as an object in for example a post request.
 const path = require('path')
 const items = require('./routes/api/items');
 const app = express();
-
+const config = require('config')
 
 
 //bodyparser middleware:
-app.use(bodyParser.json());
+app.use(express.json());
 
 //bring in the keys.js file
 
-const db = require('./config/keys').mongoURI;
+const db = config.get('mongoURI');
 
 //connect to MongoDB
 mongoose
-  .connect(db, {useUnifiedTopology: true, useNewUrlParser: true})
+  .connect(db, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true})
   .then(()=>{
     console.log('Connected to Mongo Atlas');
   }).catch(err=>{
@@ -24,7 +23,8 @@ mongoose
   });
 
 app.use('/api/items', items);  //anything going through to /api/items will use the items variable.
-
+app.use ('/api/users', require('./routes/api/users'));
+app.use ('/api/auth', require('./routes/api/auth'));
 //Serve static assets if in production
 
 if (process.env.NODE_ENV === 'production'){
